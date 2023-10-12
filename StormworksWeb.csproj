@@ -7,4 +7,12 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="System.IO.Ports" Version="8.0.0-rc.2.23479.6" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ClCompile Include="arduino.cpp" />
+    </ItemGroup>
+
 </Project>
