@@ -11,6 +11,9 @@ public class Program
     private static string _speedMph = "0";
     private static string _bearing = "0";
     private static string _altitude = "0";
+    private static string _pitch = "0";
+    private static string _roll = "0";
+    private static string _up = "0";
     private static SerialPort _serialPort = new SerialPort("COM3", 9600, Parity.None, 8, StopBits.One);
 
     public static void Main()
@@ -44,8 +47,11 @@ public class Program
         _speedMph = request.QueryString.Get("mph") ?? _speedMph;
         _bearing = request.QueryString.Get("bearing") ?? _bearing;
         _altitude = request.QueryString.Get("alt") ?? _altitude;
+        _pitch = request.QueryString.Get("pitch") ?? _pitch;
+        _roll = request.QueryString.Get("roll") ?? _roll;
+        _up = request.QueryString.Get("up") ?? _up;
 
-        var serialText = $"{_speedKmph}:{_speedMph}:{_altitude}:{_bearing}";
+        var serialText = $"{_speedKmph}:{_speedMph}:{_altitude}:{_bearing}:{_pitch}:{_roll}:{_up}";
         _serialPort.WriteLine(serialText);
         Console.WriteLine(serialText);
 
@@ -57,6 +63,9 @@ public class Program
                              $"Last Speed (mph): {_speedMph}<br/>" +
                              $"Altitude: {_altitude}<br/>" +
                              $"Bearing: {_bearing}<br/>" +
+                             $"Pitch: {_pitch}<br/>" +
+                             $"Roll: {_roll}<br/>" +
+                             $"Up: {_up}<br/>" +
                              $"<script>window.setTimeout(function() {{ window.location.reload(); }}, 1000);</script>" +
                              $"</body>" +
                              $"</html>";
@@ -71,6 +80,8 @@ public class Program
     // Display Port values and prompt user to enter a port.
     private static string SetPortName(string defaultPortName)
     {
+        string portName;
+
         Console.WriteLine("Available Ports:");
         foreach (string s in SerialPort.GetPortNames())
         {
@@ -78,7 +89,7 @@ public class Program
         }
 
         Console.Write("Enter COM port value (Default: {0}): ", defaultPortName);
-        string portName = Console.ReadLine() ?? "";
+        portName = Console.ReadLine();
 
         if (portName == "" || !(portName.ToLower()).StartsWith("com"))
         {
